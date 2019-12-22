@@ -25,7 +25,8 @@ encodedLicense="YOUR-ENCODED-LICENSE-HERE"
 1. create `libs/` folder in `app/libs`
 2. copy `cc-android-sdk-1.6.0.aar` to `app/libs` folder
 3. add `libs/cc-android-sdk-1.6.0.aar` to `app/build.gradle`
-4. update `android/app/build.gradle` with `cc-android-sdk`, `gson` and `okhttp`
+4. update `android/app/build.gradle` with `cc-android-sdk`, `gson` and `okhttp` (this step is already done, only here for reference)
+
 
 ```
 repositories {
