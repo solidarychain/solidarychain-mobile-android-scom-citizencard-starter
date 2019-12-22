@@ -3,7 +3,7 @@
 ## Clone project
 
 ```shell
-git clone https://github.com/solidarynetwork/solidarychain-mobile-android-scom-citizencard-starter.git
+git clone https://github.com/solidarynetwork/solidarynetwork-mobile-android-scom-citizencard-starter.git
 ```
 
 ## Create encoded license secrets file
