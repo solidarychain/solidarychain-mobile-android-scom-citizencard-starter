@@ -50,4 +50,30 @@ core:3.1.1'
 
 ## Change project name and package name
 
-1. change manifest and package name ex `network.solidary.mobile` for your own reverse domain name
+1. search all `network.solidary.mobile` occurrences and change with your own reverse domain name ex `com.acme.mobile`
+
+`app/src/main/AndroidManifest.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="network.solidary.mobile">
+```
+
+2. replace `app_name`
+
+`values/strings.xml`
+
+```xml
+<string name="app_name">SNCitizenCard</string>
+```
+
+3. refactor package name
+
+```
+network.solidary.mobile.MainActivity
+```
+
+```java
+package network.solidary.mobile;
+```
