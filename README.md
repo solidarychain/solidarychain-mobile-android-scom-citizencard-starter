@@ -3,7 +3,7 @@
 ## Clone project
 
 ```shell
-git clone https://github.com/solidarynetwork/solidarychain-mobile-android-scom-citizencard-starter-.git
+git clone https://github.com/solidarynetwork/solidarychain-mobile-android-scom-citizencard-starter.git
 ```
 
 ## Create encoded license secrets file
@@ -47,3 +47,7 @@ core:3.1.1'
 6. run project
 
 > SCom SDK requires gson and okhttp
+
+## Change project name and package name
+
+1. change manifest and package name ex `network.solidary.mobile` for your own reverse domain name
