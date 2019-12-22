@@ -1,16 +1,31 @@
 # README
 
-##
+## Clone project
 
-encodedLicense="eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQ0xJRU5UIiwiaW5mbyI6eyJhcHBsaWNhdGlvbiI6Im5ldHdvcmsuc29saWRhcnkubW9iaWxlIiwiYXBpS2V5IjoiMDY3NTk2OWMtY2U2Yi00NzM1LTgyMWQtNzFmYzZhYThiZDlmIiwicGxhdGZvcm1zIjpbIklPUyIsIkFORFJPSUQiXSwib3BzIjpbIlJFQURfUFVCTElDX0RBVEEiLCJSRUFEX0FERFJFU1MiXSwiZXhwaXJhdGlvbkRhdGUiOjE1OTA5NjYwMDAwMDB9LCJzaWduYXR1cmUiOiJPM3lUVFg1ZDlORlkyNTBheTNlZjkxOU8vcm1LbVM5MkNYYUxOYWN5M2x5SzMzcGJJNjFOSUh1dGViUXdhcUczVkdCazMwNXFSMHhidVFXRVRiRDRKeUtINUttUU9yb2RJWnAyY3pRNGdRUUUxVUp5OGRjUHZMa21CWk15aVl0T1oyaEdrWVZ6cjlsNHRLVUdzK2FjNDU4MnBNOUdocUdXMzFqOVNxM0ZYWllIYi94czlDZTRLcXlPcU96eTh1SjVLRlZVV3dLaElwUXROb2N3Yld5dEZ2cUZrY1NLU1BVWkUrR3N0M1RhRVd0TVo5TlY5V08xY0txS0pZMjhzamhaYmZ5TE9iYlYyTDhWdzJETzJHTXl2dk1yNFFxQnJtaU16bDhyUmlQdlJkWVVFTXdvc2ZUZHA1cHg3bVhFK2kvRFdobGo5eWw3Z1RZRzcxQ2tycTllRVE9PSJ9"
+```shell
+git clone https://github.com/solidarynetwork/solidarychain-mobile-android-scom-citizencard-starter-.git
+```
 
+## Start
 
-## How to install AAR SCom SDK Dependency
+1. create a file with your encodeLicense in `secrets.properties`
 
-> SCom sdk requires gson and okhttp
+ex.
 
-1. copy `cc-android-sdk-1.6.0.aar` to `libs/` and add `libs/cc-android-sdk-1.6.0.aar` to `build.gradle`
-2. update `android/app/build.gradle` with `cc-android-sdk`, `gson` and `okhttp`
+```
+encodedLicense="YOUR LICENSE HERE"
+```
+
+## Install AAR SCom SDK Dependency
+
+> the request your copy of SCom SDK from authors at [scom.pt](scom.pt)
+
+> our SDK as kindly donated for our solidary project only, thanks to all the good people at [scom.pt](scom.pt)
+
+1. create `libs/` folder in `app/libs`
+2. copy `cc-android-sdk-1.6.0.aar` to `app/libs` folder
+3. add `libs/cc-android-sdk-1.6.0.aar` to `app/build.gradle`
+4. update `android/app/build.gradle` with `cc-android-sdk`, `gson` and `okhttp`
 
 ```
 repositories {
@@ -27,4 +42,7 @@ core:3.1.1'
 }
 ```
 
-3. sync project
+5. sync project
+6. run project
+
+> SCom SDK requires gson and okhttp
