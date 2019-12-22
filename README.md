@@ -18,9 +18,9 @@ encodedLicense="YOUR LICENSE HERE"
 
 ## Install AAR SCom SDK Dependency
 
-> the request your copy of SCom SDK from authors at [scom.pt](scom.pt)
+> request your copy of SCom SDK from authors at [scom.pt](https://scom.pt)
 
-> our SDK as kindly donated for our solidary project only, thanks to all the good people at [scom.pt](scom.pt)
+> our SDK was kindly donated for our solidarity project only, **thanks to all the good people** at [scom.pt](https://scom.pt)
 
 1. create `libs/` folder in `app/libs`
 2. copy `cc-android-sdk-1.6.0.aar` to `app/libs` folder
