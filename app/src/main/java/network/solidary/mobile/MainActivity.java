@@ -1,6 +1,8 @@
 package network.solidary.mobile;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -14,7 +16,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.security.cert.X509Certificate;
 
 import io.ptech.cc.android.sdk.exported.CitizenCard;
 import io.ptech.cc.android.sdk.exported.CitizenCardReader;
@@ -26,6 +31,9 @@ import io.ptech.cc.android.sdk.exported.model.Person;
 public class MainActivity extends AppCompatActivity {
 
   private final String TAG = "MainActivity";
+  private ImageView bitmapPhoto;
+  private TextView tvCardType;
+  private TextView tvPublicInfo;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -33,31 +41,25 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    final TextView textView = findViewById(R.id.textview);
-
     FloatingActionButton fab = findViewById(R.id.fab);
+    bitmapPhoto = findViewById(R.id.imPhoto);
+    tvCardType= findViewById(R.id.tvCardType);
+    tvPublicInfo = findViewById(R.id.tvPublicInfo);
+    final String remoteHostAddress = "https://api.citizencard.cadsh.com";
+
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        try {
-          Person person = CitizenCard.getPublicData();
-          Log.d(TAG, person.toString());
-        } catch (CardException e) {
-          e.printStackTrace();
-        }
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-          .setAction("Action", null).show();
+        readCard();
       }
     });
 
     try {
       String packageName = getApplicationContext().getPackageName();
-      String encodedLicense = "eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQ0xJRU5UIiwiaW5mbyI6eyJhcHBsaWNhdGlvbiI6Im5ldHdvcmsuc29saWRhcnkubW9iaWxlIiwiYXBpS2V5IjoiMDY3NTk2OWMtY2U2Yi00NzM1LTgyMWQtNzFmYzZhYThiZDlmIiwicGxhdGZvcm1zIjpbIklPUyIsIkFORFJPSUQiXSwib3BzIjpbIlJFQURfUFVCTElDX0RBVEEiLCJSRUFEX0FERFJFU1MiXSwiZXhwaXJhdGlvbkRhdGUiOjE1OTA5NjYwMDAwMDB9LCJzaWduYXR1cmUiOiJPM3lUVFg1ZDlORlkyNTBheTNlZjkxOU8vcm1LbVM5MkNYYUxOYWN5M2x5SzMzcGJJNjFOSUh1dGViUXdhcUczVkdCazMwNXFSMHhidVFXRVRiRDRKeUtINUttUU9yb2RJWnAyY3pRNGdRUUUxVUp5OGRjUHZMa21CWk15aVl0T1oyaEdrWVZ6cjlsNHRLVUdzK2FjNDU4MnBNOUdocUdXMzFqOVNxM0ZYWllIYi94czlDZTRLcXlPcU96eTh1SjVLRlZVV3dLaElwUXROb2N3Yld5dEZ2cUZrY1NLU1BVWkUrR3N0M1RhRVd0TVo5TlY5V08xY0txS0pZMjhzamhaYmZ5TE9iYlYyTDhWdzJETzJHTXl2dk1yNFFxQnJtaU16bDhyUmlQdlJkWVVFTXdvc2ZUZHA1cHg3bVhFK2kvRFdobGo5eWw3Z1RZRzcxQ2tycTllRVE9PSJ9";
-      String remoteHostAddress = "https://api.citizencard.cadsh.com";
+      String encodedLicense = network.solidary.mobile.BuildConfig.encodedLicense;
       String deviceID = getDeviceId(getApplication());
-      Log.d(TAG, packageName);
-
-      // Application application, String remoteHostAddress, String license, String deviceID
+      Log.d(TAG, String.format("packageName: %s", packageName));
+      Log.d(TAG, String.format("deviceID: %s", deviceID));
 
       // your application context
       CitizenCardReader.setup(getApplication(),
@@ -71,23 +73,22 @@ public class MainActivity extends AppCompatActivity {
           @Override
           public void onEvent(EventType eventType) {
             if (eventType.equals(EventType.CARD_READY)) {
-              Log.i(TAG, "Card is ready for operations...");
-              // At this point you can start using all the card functionality
-              Person person = null;
-              try {
-                person = CitizenCard.getPublicData();
-              } catch (CardException e) {
-                e.printStackTrace();
-              }
-              Log.d(TAG, person.toString());
-              textView.setText(person.toString());
+              readCard();
+            } else if (eventType.equals(EventType.CARD_DETECTED)) {
+              String message = "Citizen card detected";
+              Log.i(TAG, message );
+              Snackbar.make(tvPublicInfo, message , Snackbar.LENGTH_SHORT)
+                .setAction("Action", null).show();
+            } else if (eventType.equals(EventType.CARD_REMOVED)) {
+              String message = "Citizen card removed";
+              Log.i(TAG, message );
+              Snackbar.make(tvPublicInfo, message , Snackbar.LENGTH_SHORT)
+                .setAction("Action", null).show();
             }
           }
         });
     } catch (InvalidLicenseException e) {
       Log.i(TAG, "Detected invalid license: " + e.getMessage());
-    // } catch (InternalErrorException e) {
-    //  Log.i(TAG, "Failed to initialize the card reader: " + e.getMessage());
     }
   }
 
@@ -113,10 +114,50 @@ public class MainActivity extends AppCompatActivity {
     return super.onOptionsItemSelected(item);
   }
 
+  @SuppressLint("HardwareIds")
   public static String getDeviceId(Context context) {
-    String androidId = Settings.Secure.getString(
+    return Settings.Secure.getString(
       context.getContentResolver(), Settings.Secure.ANDROID_ID);
+  }
 
-    return androidId;
+  private void readCard() {
+    // At this point you can start using all the card functionality
+    String message = "Card reader is ready for operations";
+    Log.i(TAG, message );
+    Snackbar.make(tvPublicInfo, message , Snackbar.LENGTH_SHORT)
+      .setAction("Action", null).show();
+
+    try {
+      // get Picture
+      Bitmap picture = CitizenCard.getPicture();
+      // get card type
+      String cardType = CitizenCard.getCardType();
+      // get public info
+      Person person = CitizenCard.getPublicData();
+      // log person object
+      Person formattedPersonData = Util.formatPersonData(person);
+      // get certificates
+      X509Certificate signingCert = CitizenCard.getSigningCertificate();
+      X509Certificate signingCACert = CitizenCard.getCASigningCertificate();
+      X509Certificate authCert = CitizenCard.getAuthenticationCertificate();
+      X509Certificate authCACert = CitizenCard.getCAAuthCertificate();
+      X509Certificate rootCACert = CitizenCard.getCARootCertificate();
+
+      // set PersonPayload
+      PersonPayload personPayload = new PersonPayload(cardType, person, signingCert, signingCACert, authCert, authCACert, rootCACert);
+
+      // log
+      Log.d(TAG, formattedPersonData.toString());
+      // update UI
+      bitmapPhoto.setImageBitmap(picture);
+      tvCardType.setText(cardType);
+      tvPublicInfo.setText(formattedPersonData.toString());
+
+      // show snackBar
+      Snackbar.make(tvPublicInfo, "Citizen card public info read", Snackbar.LENGTH_SHORT)
+        .setAction("Action", null).show();
+    } catch (CardException e) {
+      e.printStackTrace();
+    }
   }
 }

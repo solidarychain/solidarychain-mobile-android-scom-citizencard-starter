@@ -1,3 +1,8 @@
 <resources>
   <dimen name="fab_margin">16dp</dimen>
+  <!--404px-->
+  <dimen name="photoWidth">101px</dimen>
+  <!--538px-->
+  <dimen name="photoHeight">134px</dimen>
+  <dimen name="padding">10dp</dimen>
 </resources>
