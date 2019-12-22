@@ -6,14 +6,14 @@
 git clone https://github.com/solidarynetwork/solidarychain-mobile-android-scom-citizencard-starter-.git
 ```
 
-## Start
+## Create encoded license secrets file
 
-1. create a file with your encodeLicense in `secrets.properties`
+1. create a file with your encodeLicense named `secrets.properties` in the root of the project
 
 ex.
 
 ```
-encodedLicense="YOUR LICENSE HERE"
+encodedLicense="YOUR-ENCODED-LICENSE-HERE"
 ```
 
 ## Install AAR SCom SDK Dependency
