@@ -32,7 +32,7 @@
       />
 
     <TextView
-      android:id="@+id/tvPublicInfo"
+      android:id="@+id/tvLog"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textSize="12sp" />

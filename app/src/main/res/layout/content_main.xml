@@ -16,6 +16,12 @@
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
+    <TextView
+      android:id="@+id/tvEventStatus"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/colorAccent" />
+
     <ImageView
       android:id="@+id/imPhoto"
       android:layout_width="@dimen/photoWidth"
@@ -32,10 +38,11 @@
       />
 
     <TextView
-      android:id="@+id/tvPublicInfo"
-      android:textFontWeight="400"
+      android:id="@+id/tvLog"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content" />
+      android:layout_height="wrap_content"
+      android:gravity="bottom"
+      android:textColor="@color/cardview_dark_background" />
 
   </LinearLayout>
 
